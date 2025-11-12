@@ -1,0 +1,31 @@
+[package]
+name = "CLIPasswordGenerator"
+version = "0.1.0"
+edition = "2024"
+authors = ["Daniele Latini"]
+description = "A secure command-line password generator with customizable options and security estimation"
+readme = "README.md"
+repository = "https://github.com/danielelatini/CLIPasswordGenerator"
+license = "MIT"
+keywords = ["password", "generator", "security", "cli", "cryptography"]
+categories = ["command-line-utilities", "cryptography"]
+
+# Documentation configuration
+[package.metadata.docs.rs]
+all-features = true
+
+[dependencies]
+# Command-line argument parsing with derive macros
+clap = { version = "4.5.51", features = ["derive"] }
+
+# Cryptographically secure random number generation
+rand = "0.9.2"
+
+# ASCII art text generation for logo
+figlet-rs = "0.1.0"
+
+# Terminal text coloring for beautiful output
+colored = "2.0"
+
+# Human-readable duration formatting
+humantime = "2.3.0"
