@@ -133,7 +133,7 @@ Your terminal may not support colors. The app will still work with plain text.
 
 ## 📚 Learn More
 
-- [Full Documentation](README.md)
+- [Full Documentation](../README.md)
 - [API Reference](API.md)
 - [Contributing Guide](CONTRIBUTING.md)
 - [Changelog](CHANGELOG.md)
@@ -173,14 +173,14 @@ cargo run -- -l 12 -n
 ## 🚀 Next Steps
 
 1. ⭐ Star the repository
-2. 📖 Read the full [README](README.md)
+2. 📖 Read the full [README](../README.md)
 3. 🤝 [Contribute](CONTRIBUTING.md) improvements
 4. 🐛 Report issues on GitHub
 5. 💬 Share with friends!
 
 ## 📞 Need Help?
 
-- Check [README.md](README.md) for detailed usage
+- Check [README.md](../README.md) for detailed usage
 - See [API.md](API.md) for technical details
 - Open an issue on GitHub
 - Read [CONTRIBUTING.md](CONTRIBUTING.md) for development help
