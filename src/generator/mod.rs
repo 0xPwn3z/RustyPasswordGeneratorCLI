@@ -1,5 +1,5 @@
 use rand::prelude::{IndexedRandom, SliceRandom};
-use crate::utils::*;
+use crate::utils;
 use crate::cli::Args;
 
 /// Validates and sets the password length within acceptable bounds
@@ -17,9 +17,9 @@ fn set_length (args: &Args) -> u32 {
     let mut length = args.length;
 
     // Check if length is within valid bounds
-    if args.length < MIN_LENGTH || args.length > MAX_LENGTH {
-        println!("Password length must be between {} and {}.", MIN_LENGTH, MAX_LENGTH);
-        length = DEFAULT_LENGTH;
+    if args.length < utils::MIN_LENGTH || args.length > utils::MAX_LENGTH {
+        println!("Password length must be between {} and {}. Using default: {}", utils::MIN_LENGTH, utils::MAX_LENGTH, utils::DEFAULT_LENGTH);
+        length = utils::DEFAULT_LENGTH;
     }
 
     length
@@ -40,21 +40,21 @@ fn set_length (args: &Args) -> u32 {
 /// - Optionally includes numbers (0-9)
 fn create_charset(args: &Args) -> String {
     // Start with lowercase letters as the base character set
-    let mut charset = String::from(CHARS);
+    let mut charset = String::from(utils::CHARS);
 
     // Add uppercase letters if requested
     if args.uppercase_chars {
-        charset.push_str(UPPERCASE_CHARS);
+        charset.push_str(utils::UPPERCASE_CHARS);
     }
 
     // Add special characters if requested
     if args.special_chars {
-        charset.push_str(SPECIAL_CHARS);
+        charset.push_str(utils::SPECIAL_CHARS);
     }
 
     // Add numbers if requested
     if args.numbers {
-        charset.push_str(NUMBERS);
+        charset.push_str(utils::NUMBERS);
     }
 
     charset
@@ -94,7 +94,7 @@ pub fn compute_password(args: &Args) -> String {
         charset.shuffle(&mut rng);
 
         // Randomly choose one character and append to password
-        password.push(charset.choose(&mut rng).unwrap().clone());
+        password.push(*charset.choose(&mut rng).expect("Charset vuoto"));
     }
 
     password
