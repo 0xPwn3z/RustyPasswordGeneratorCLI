@@ -77,7 +77,7 @@ pub fn compute_password(args_length: u32, up_chars: bool, spec_chars: bool, num_
     let mut rng = rand::rng();
 
     // Initialize empty password string
-    let mut password = String::from("");
+    let mut password_chars : Vec<char> = Vec::new();
 
     // Set the password length and character set
     let length = set_length(args_length);
@@ -89,27 +89,36 @@ pub fn compute_password(args_length: u32, up_chars: bool, spec_chars: bool, num_
     // Shuffle the charset for better randomness
     charset.shuffle(&mut rng);
 
+    // Ensure at least one character from each selected category is included
+    let chars: Vec<char> = utils::CHARS.chars().collect();
+    password_chars.push(*chars.choose(&mut rng).expect("No characters available"));
+
     if up_chars {
         // Ensure at least one uppercase character is included
         let upper_chars: Vec<char> = utils::UPPERCASE_CHARS.chars().collect();
-        password.push(*upper_chars.choose(&mut rng).expect("No uppercase characters available"));
+        password_chars.push(*upper_chars.choose(&mut rng).expect("No uppercase characters available"));
     }
     if spec_chars {
         // Ensure at least one special character is included
         let special_chars: Vec<char> = utils::SPECIAL_CHARS.chars().collect();
-        password.push(*special_chars.choose(&mut rng).expect("No special characters available"));
+        password_chars.push(*special_chars.choose(&mut rng).expect("No special characters available"));
     }
     if num_chars {
         // Ensure at least one numeric character is included
         let number_chars: Vec<char> = utils::NUMBERS.chars().collect();
-        password.push(*number_chars.choose(&mut rng).expect("No numeric characters available"));
+        password_chars.push(*number_chars.choose(&mut rng).expect("No numeric characters available"));
     }
+
+    let sub_lenght = password_chars.len() as u32;
 
     // Generate each character of the password
-    for _ in 0..length {
+    for _ in sub_lenght..length {
         // Randomly choose one character and append to password
-        password.push(*charset.choose(&mut rng).expect("Empty character set"));
+        password_chars.push(*charset.choose(&mut rng).expect("Empty character set"));
     }
 
-    password
+    // Shuffle the final password characters to avoid predictable patterns
+    password_chars.shuffle(&mut rng);
+
+    password_chars.iter().collect()
 }
