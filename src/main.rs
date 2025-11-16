@@ -49,7 +49,7 @@ fn main() {
     match &cli.command {
         cli::Commands::Generate(args) => {
             // Generate the random password
-            let password = generator::compute_password(&args);
+            let password = generator::compute_password(args.length, args.uppercase_chars, args.special_chars, args.numbers);
             // Display the generated password and security information
             println!("Generated Password: {}", password);
         },
