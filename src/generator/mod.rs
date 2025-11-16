@@ -89,10 +89,26 @@ pub fn compute_password(args_length: u32, up_chars: bool, spec_chars: bool, num_
     // Shuffle the charset for better randomness
     charset.shuffle(&mut rng);
 
+    if up_chars {
+        // Ensure at least one uppercase character is included
+        let upper_chars: Vec<char> = utils::UPPERCASE_CHARS.chars().collect();
+        password.push(*upper_chars.choose(&mut rng).expect("No uppercase characters available"));
+    }
+    if spec_chars {
+        // Ensure at least one special character is included
+        let special_chars: Vec<char> = utils::SPECIAL_CHARS.chars().collect();
+        password.push(*special_chars.choose(&mut rng).expect("No special characters available"));
+    }
+    if num_chars {
+        // Ensure at least one numeric character is included
+        let number_chars: Vec<char> = utils::NUMBERS.chars().collect();
+        password.push(*number_chars.choose(&mut rng).expect("No numeric characters available"));
+    }
+
     // Generate each character of the password
     for _ in 0..length {
         // Randomly choose one character and append to password
-        password.push(*charset.choose(&mut rng).expect("Charset vuoto"));
+        password.push(*charset.choose(&mut rng).expect("Empty character set"));
     }
 
     password
