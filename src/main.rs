@@ -17,10 +17,10 @@
 //! cargo run -- -l 24 -u -n -s
 //! ```
 
+use clap::Parser;
 mod generator;
 mod utils;
 mod cli;
-use clap::Parser;
 
 
 // ============================================================================
@@ -41,10 +41,19 @@ fn main() {
     // Display the ASCII art logo
     utils::print_logo();
     // Parse command-line arguments
-    let args = cli::Args::parse();
-    // Generate the random password
-    let password = generator::compute_password(&args);
-    // Display the generated password and security information
-    println!("Generated Password: {}", password);
+    let cli = cli::Cli::parse();
+
+    match &cli.command {
+        cli::Commands::Generate(args) => {
+            // Generate the random password
+            let password = generator::compute_password(&args);
+            // Display the generated password and security information
+            println!("Generated Password: {}", password);
+        },
+        cli::Commands::Analyze(args) => {
+            let strength = utils::analyze_password(&args.password);
+            println!("Password Strength Analysis:\n{}", strength);
+        }
+    }
 }
 

@@ -68,3 +68,7 @@ pub fn print_logo() {
         }
     }
 }
+
+pub(crate) fn analyze_password(p0: &String) -> String {
+    todo!()
+}

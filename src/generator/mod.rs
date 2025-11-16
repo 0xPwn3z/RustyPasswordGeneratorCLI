@@ -1,6 +1,6 @@
 use rand::prelude::{IndexedRandom, SliceRandom};
 use crate::utils;
-use crate::cli::Args;
+use crate::cli::GenerateArgs as Args;
 
 /// Validates and sets the password length within acceptable bounds
 ///
