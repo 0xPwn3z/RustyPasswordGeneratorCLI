@@ -18,10 +18,13 @@
 //! ```
 
 use clap::Parser;
+use colored::Colorize;
+use figlet_rs::FIGfont;
+
 mod generator;
 mod utils;
 mod cli;
-
+mod analyzer;
 
 // ============================================================================
 // Main Entry Point
@@ -39,7 +42,7 @@ mod cli;
 /// 7. Display results to the user
 fn main() {
     // Display the ASCII art logo
-    utils::print_logo();
+    print_logo();
     // Parse command-line arguments
     let cli = cli::Cli::parse();
 
@@ -51,8 +54,47 @@ fn main() {
             println!("Generated Password: {}", password);
         },
         cli::Commands::Analyze(args) => {
-            let strength = utils::analyze_password(&args.password);
+            let strength = analyzer::analyze_password(&args.password);
             println!("Password Strength Analysis:\n{}", strength);
+        }
+    }
+}
+
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+/// Prints the application logo using ASCII art
+///
+/// Displays "Rusty Password Generator" in green using FIGfont.
+/// Falls back to simple text if FIGfont conversion fails.
+fn print_logo() {
+    // Load the standard FIGfont
+    let standard_font = FIGfont::standard().expect("Failed to read standard font");
+
+    // Convert "Rusty" to ASCII art
+    let figure = standard_font.convert("Rusty");
+
+    // Convert "Password Generator" to ASCII art
+    let figure1 = standard_font.convert("Password Utility");
+
+    // Display "Rusty" (with fallback)
+    match figure {
+        Some(f) => {
+            println!("{}", f.to_string().green());
+        }
+        None => {
+            println!("[+] Rusty [+]");
+        }
+    }
+
+    // Display "Password Generator" (with fallback)
+    match figure1 {
+        Some(f) => {
+            println!("{}", f.to_string().green());
+        }
+        None => {
+            println!("[>] Password Generator [<]");
         }
     }
 }
